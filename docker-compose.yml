@@ -1,0 +1,37 @@
+version: '3.7'
+services:
+  user-managment-service:
+    build:
+      context: ""
+    restart: always
+    container_name: user-managment-service
+    command: sh ./run_server.sh
+    ports:
+      - 8080:8080
+    networks:
+      - user-managment-service
+    environment:
+      PG_DB_HOST: ${PG_DB_HOST}
+      PG_DB_USERNAME: ${PG_DB_USERNAME}
+      PG_DB_PASSWORD: ${PG_DB_PASSWORD}
+      PG_DB_NAME: ${PG_DB_NAME}
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+    networks:
+      - user-managment-service
+networks:
+  user-managment-service:
+    external: true
+volumes:
+  db:
+    driver: local
