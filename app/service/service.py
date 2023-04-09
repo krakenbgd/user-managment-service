@@ -2,6 +2,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import NoResultFound
 from app.db.db import DBConn
 
+
 class UserManagmentService:
     def __init__(self):
         self.db = DBConn()
@@ -23,7 +24,7 @@ class UserManagmentService:
             return JSONResponse(status_code=404, content={"message": str(e)})
         except Exception as e:
             return JSONResponse(status_code=500, content={"message": str(e)})
-    
+
     def create_user(self, user):
         try:
             status = self.db.create_user(user)
@@ -31,7 +32,7 @@ class UserManagmentService:
             return JSONResponse(content=status, status_code=200)
         except Exception as e:
             return JSONResponse(status_code=500, content={"message": str(e)})
-    
+
     def update_user(self, user_id, user):
         try:
             status = self.db.update_user(user_id, user)
@@ -39,7 +40,7 @@ class UserManagmentService:
             return JSONResponse(content=status, status_code=200)
         except Exception as e:
             return JSONResponse(status_code=500, content={"message": str(e)})
-    
+
     def delete_user(self, user_id):
         try:
             status = self.db.delete_user(user_id)

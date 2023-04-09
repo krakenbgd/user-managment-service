@@ -20,9 +20,11 @@ class DBConn:
                 return users
         except Exception as e:
             print(str(e))
-    
-            raise Exception(f"Server encountered unexpected error! Try again later or contact the administrator.")
-    
+
+            raise Exception(
+                f"Server encountered unexpected error! Try again later or contact the administrator."
+            )
+
     def get_user_by_id(self, user_id):
         try:
             with engine.connect() as connection:
@@ -35,19 +37,19 @@ class DBConn:
                 return dict(user._mapping)
         except NoResultFound as e:
             print(str(e))
-    
+
             raise NoResultFound(str(e))
         except SQLAlchemyError as e:
             print(str(e))
-    
-            raise Exception(f"Server encountered unexpected error! Try again later or contact the administrator.")
-    
+
+            raise Exception(
+                f"Server encountered unexpected error! Try again later or contact the administrator."
+            )
+
     def create_user(self, user):
         try:
             with engine.connect() as connection:
-                query = insert(users_table).values(
-                    user.dict()
-                )
+                query = insert(users_table).values(user.dict())
                 result = connection.execute(query)
                 connection.commit()
                 user_id = result.inserted_primary_key[0]
@@ -55,23 +57,32 @@ class DBConn:
                 return {"message": f"User created successfully! User ID is: {user_id}"}
         except SQLAlchemyError as e:
             print(str(e))
-    
-            raise ValueError(f"Server encountered unexpected error! Try again later or contact the administrator.")
+
+            raise ValueError(
+                f"Server encountered unexpected error! Try again later or contact the administrator."
+            )
 
     def update_user(self, user_id, user):
         try:
             with engine.connect() as connection:
-                update_stmt = update(users_table) \
-                    .where(users_table.c.id == user_id).values(user.dict())
+                update_stmt = (
+                    update(users_table)
+                    .where(users_table.c.id == user_id)
+                    .values(user.dict())
+                )
                 connection.execute(update_stmt)
                 connection.commit()
 
-                return {"message": f"User associated with {user_id} updated successfully!"}
+                return {
+                    "message": f"User associated with {user_id} updated successfully!"
+                }
         except SQLAlchemyError as e:
             print(str(e))
-    
-            raise ValueError(f"Server encountered unexpected error! Try again later or contact the administrator.")
-    
+
+            raise ValueError(
+                f"Server encountered unexpected error! Try again later or contact the administrator."
+            )
+
     def delete_user(self, user_id):
         try:
             with engine.connect() as connection:
@@ -79,9 +90,12 @@ class DBConn:
                 connection.execute(delete_stmt)
                 connection.commit()
 
-                return {"message": f"User associated with {user_id} deleted successfully!"}
+                return {
+                    "message": f"User associated with {user_id} deleted successfully!"
+                }
         except Exception as e:
             print(str(e))
-    
-            raise ValueError(f"Server encountered unexpected error! Try again later or contact the administrator.")
-    
+
+            raise ValueError(
+                f"Server encountered unexpected error! Try again later or contact the administrator."
+            )

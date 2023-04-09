@@ -12,14 +12,14 @@ engine = create_engine(f"postgresql://{db_user}:{db_password}@{db_host}:5432/{db
 # define metadata for the users table
 metadata = MetaData(schema="public")
 users_table = Table(
-        'users',
-        metadata,
-        Column('id', Integer, primary_key=True, autoincrement=True),
-        Column('first_name', String),
-        Column('last_name', String),
-        Column('address', String),
-        Column('country', String),
-        Column('age', Integer)
-    )
+    "users",
+    metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("first_name", String),
+    Column("last_name", String),
+    Column("address", String),
+    Column("country", String),
+    Column("age", Integer),
+)
 
 metadata.create_all(engine)
